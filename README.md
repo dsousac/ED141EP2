@@ -37,18 +37,23 @@ que um grafo orientado é chamado de digrafo.
 ================================================================================
 
 Para compilar, rode o Makefile que acompanha o projeto, com o make:  
+
     make
+	
 Observe que foram criados dois executáveis. O ep2db contém os links simbólicos
 para se usar no gdb.  
 
 Para limpar os arquivos temporários criados pelo make, execute:  
+
     make clean
   
 4. O Programa
 ================================================================================
 
 Para executar o programa digite:  
+
     ./ep2 arquivo_de_entrada.txt
+	
 Onde 'arquivo_de_entrada.txt' contém as informações do digrafo, de acordo com a 
 formatação do enunciado.  
 
@@ -59,15 +64,15 @@ Após a impressão das informações do digrafo, o programa irá entrar em um mo
 interativo, no qual o usuário deve inserir dois números e o programa irá
 calcular a distancia do primeiro ao segundo e o caminho feito, se existir.
 Segue a mensagem de instruções do modo interativo.
-'''
-==== Modo interativo ====
-== Encontrando um caminho de s a t ==");
-Para imprimir o caminho do vertice s ao vertice t, digite um numero 
-correspondente a s e outro para t. Tecle Enter.
-Para imprimir essa mensagem novamente digite algum numero negativos e outro 
-qualquer e tecle Enter.
-Qualquer outra entrada encerrara o programa.
-''' 
+
+	==== Modo interativo ====
+	== Encontrando um caminho de s a t ==");
+	Para imprimir o caminho do vertice s ao vertice t, digite um numero 
+	correspondente a s e outro para t. Tecle Enter.
+	Para imprimir essa mensagem novamente digite algum numero negativos e outro 
+	qualquer e tecle Enter.
+	Qualquer outra entrada encerrara o programa.
+
 Na realidade você também pode digitar cada valor separadamente seguido de um
 Enter.
 
