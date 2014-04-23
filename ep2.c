@@ -1,7 +1,7 @@
 /******************************************************************************/
 /* Nome: Christian M. T. Takagi             No. USP: 7136971                  */
-/* Disciplina: MAC323                       Profº Andre Fujita                */
-/* Exercício Programa 2                     Arquivo: ep2.c                    */
+/* Disciplina: MAC323                       Prof.  Andre Fujita               */
+/* Exercicio Programa 2                     Arquivo: ep2.c                    */
 /******************************************************************************/
 
 /* O código a seguir utiliza a 'biblioteca" disponibilizada pelo Professor */
@@ -34,6 +34,9 @@ typedef struct vertex {
 /* REPRESENTAÇÃO POR LISTAS DE ADJACÊNCIA: A estrutura digraph representa um  */
 /* digrafo. O campo adj é um ponteiro para o vetor de listas de adjacência, o */
 /* campo V contém o número de vértices e o campo A contém o número de arcos. */
+/* O vetor dist armazena as distancias entre um vertice e os demais e o vetor */
+/* parent armazena os pais de um dado vertice. Ambos sao manipulados pela */
+/* função DIGRAPHdist() e suas informacoes são impressas por imprimeCaminho() */
 struct digraph {
     int V;
     int A;
@@ -48,7 +51,7 @@ typedef struct digraph *Digraph;
 
 /* A função DIGRAPHinit devolve (o endereço de) um novo digrafo com */
 /* vértices 0 1 ... V-1 e nenhum arco. Edição: Portanto, seu grau é 0. */
-Digraph DIGRAPHinit( int V) { 
+Digraph DIGRAPHinit( int V) {
     int v;
     Digraph G = malloc( sizeof *G);
     G->V = V;
@@ -88,20 +91,23 @@ void DIGRAPHinsertA( Digraph G, int v, int w) {
 }
 
 
-/* Para cada vertice v do grafo G, imprime todos os vertices adjacentes a v */
+/* Para cada vertice v do digrafo G, imprime todos os vertices adjacentes a v */
 void DIGRAPHshow(Digraph G) {
     int i;
     link p;
-    printf( "G->V: %d\tG->A: %d\n", G->V, G->A);
-    printf( "G->adj:\n");
+    printf( "\nO grafo contem %d vertices e %d arestas\n", G->V, G->A);
+    printf( "A tabela a seguir contem informacoes sobre cada vertice.\n\n");
+    printf( "Vertice|grau de entrada|grau de saida|lista de adjacencias:");
+    printf( "w1  w2  ...   wn\n");
     for (i = 0; i < G->V; i ++) {
-        printf( "V: %d | indeg: %d | outdeg: %d | arcs:", 
+        printf( "v: %d | entrada: %d | saida: %d |",
                 i, G->adj[i].indeg, G->adj[i].outdeg);
         for (p = G->adj[i].arcs; p != NULL; p = p->next) {
             printf( "  %d", p->w);
         }
         printf("\n");
     }
+    printf("\n");
 }
 
 
@@ -109,7 +115,7 @@ void DIGRAPHshow(Digraph G) {
 /* digrafo G. Para cada vértice v, a distância de s a v é depositada em */
 /* G->dist[v]. Edição: Foi acrescentado o calculo do vetor parent, para */ 
 /* registrar o caminho de s a t. */
-void DIGRAPHdist( Digraph G, int s) { 
+void DIGRAPHdist( Digraph G, int s) {
     const int INFINITO = G->V;
     int v, w; 
     link a;
@@ -126,7 +132,7 @@ void DIGRAPHdist( Digraph G, int s) {
 
         for (a = G->adj[v].arcs; a != NULL; a = a->next) {
             w = a->w;
-            if (G->dist[w] == INFINITO) { 
+            if (G->dist[w] == INFINITO) {
                 G->dist[w] = G->dist[v] + 1;
                 G->parent[w] = v;
                 fila[++fim] = w;
@@ -136,9 +142,11 @@ void DIGRAPHdist( Digraph G, int s) {
 }
 
 
-/* Imprime o caminho do vértice s ao t. */
+/* Editado: Imprime o caminho e a distâcia do vértice s ao t. */
 void imprimeCaminho( Digraph G, int s, int t) {
     int w, topo = 0, *pilha;
+	printf("Distancia de %d a %d: %d\n", s, t, G->dist[t]);
+	printf("Caminho: ");
     pilha = malloc( G->V * sizeof (int));
     for (w = t; w != s; w = G->parent[w])
         pilha[topo++] = w;
@@ -152,11 +160,11 @@ void imprimeCaminho( Digraph G, int s, int t) {
 /* Imprime as instrucoes de uso do modo interativo. */
 void showHelp() {
     printf( "==== Modo interativo ====\n== Encontrando um caminho de s a t ==");
-    printf( "\nPara imprimir o caminho de s a t, digite o numero"); 
-    printf( "correspondente a s e tecle \nEnter. Repita para t.\n Para sair");
-    printf( "do programa digite qualquer letra e tecle Enter.\n");
+    printf( "\nPara imprimir o caminho do vertice s ao vertice t, digite um "); 
+    printf( "numero correspondente a s e outro para t. Tecle Enter.\n");
     printf( "Para imprimir essa mensagem novamente digite algum numero ");
-    printf( "negativos e tecle Enter\n");
+    printf( "negativos e outro \nqualquer e tecle Enter\n");
+	printf( "Qualquer outra entrada encerrara o programa.\n");
 }
 
 
@@ -230,8 +238,6 @@ int main( int argc, char *argv[]) {
             if (G->dist[out] == G->V) 
                 printf( "Nao existe caminho do vertice %d ao %d\n", in, out);
             else {
-                printf("Distancia de %d a %d: %d\n", in, out, G->dist[out]);
-                printf("Caminho: ");
                 imprimeCaminho( G, in, out);
             }
         }
