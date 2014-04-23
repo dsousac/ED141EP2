@@ -68,9 +68,9 @@ Digraph DIGRAPHinit( int V) {
 
 /* A função NEWnode recebe um vértice w e o endereço next de um nó e devolve  */
 /* o endereço a de um novo nó tal que a->w == w e a->next == next. */
-link NEWnode( int w, link next) { 
+link NEWnode( int w, link next) {
     link a = malloc( sizeof (struct node));
-    a->w = w; 
+    a->w = w;
     a->next = next;
     return a;
 }
@@ -80,11 +80,24 @@ link NEWnode( int w, link next) {
 /* arco v-w no digrafo G.  A função supõe que v e w são distintos, positivos, */
 /* e menores que G->V. Se o digrafo já tem arco v-w, a função não faz nada. */
 /* Edição: Quando um arco é adicionado, atualizamos a informação de seu grau. */
-void DIGRAPHinsertA( Digraph G, int v, int w) { 
-    link a;
-    for (a = G->adj[v].arcs; a != NULL; a = a->next) 
-        if (a->w == w) return;
-    G->adj[v].arcs = NEWnode( w, G->adj[v].arcs);
+void DIGRAPHinsertA( Digraph G, int v, int w) {
+    link a = G->adj[v].arcs, ant = NULL;
+    if (a == NULL || a->w > w) {
+        G->adj[v].arcs = NEWnode( w, a);
+        G->A++;
+        G->adj[w].indeg ++;
+        G->adj[v].outdeg ++;
+        return;
+    }
+    while (a != NULL && a->w <= w) {
+        if (a->w == w)
+            return;
+        else {
+            ant = a;
+            a = a->next;
+        }
+    }
+    ant->next = NEWnode( w, a);
     G->A++;
     G->adj[w].indeg ++;
     G->adj[v].outdeg ++;
@@ -113,11 +126,11 @@ void DIGRAPHshow(Digraph G) {
 
 /* Calcula a distância de um vértice s a cada um dos demais vértices do */
 /* digrafo G. Para cada vértice v, a distância de s a v é depositada em */
-/* G->dist[v]. Edição: Foi acrescentado o calculo do vetor parent, para */ 
+/* G->dist[v]. Edição: Foi acrescentado o calculo do vetor parent, para */
 /* registrar o caminho de s a t. */
 void DIGRAPHdist( Digraph G, int s) {
     const int INFINITO = G->V;
-    int v, w; 
+    int v, w;
     link a;
     int *fila, ini, fim;
     fila = malloc( G->V * sizeof (int));
@@ -128,7 +141,7 @@ void DIGRAPHdist( Digraph G, int s) {
 
     while (ini <= fim) {
         /* fila[ini..fim] é uma fila de vértices */
-        v = fila[ini++]; 
+        v = fila[ini++];
 
         for (a = G->adj[v].arcs; a != NULL; a = a->next) {
             w = a->w;
@@ -145,13 +158,13 @@ void DIGRAPHdist( Digraph G, int s) {
 /* Editado: Imprime o caminho e a distâcia do vértice s ao t. */
 void imprimeCaminho( Digraph G, int s, int t) {
     int w, topo = 0, *pilha;
-	printf("Distancia de %d a %d: %d\n", s, t, G->dist[t]);
-	printf("Caminho: ");
+    printf("Distancia de %d a %d: %d\n", s, t, G->dist[t]);
+    printf("Caminho: ");
     pilha = malloc( G->V * sizeof (int));
     for (w = t; w != s; w = G->parent[w])
         pilha[topo++] = w;
     printf( "%d", s);
-    while (topo > 0) 
+    while (topo > 0)
         printf( "-%d", pilha[--topo]);
     printf( "\n");
 }
@@ -160,11 +173,11 @@ void imprimeCaminho( Digraph G, int s, int t) {
 /* Imprime as instrucoes de uso do modo interativo. */
 void showHelp() {
     printf( "==== Modo interativo ====\n== Encontrando um caminho de s a t ==");
-    printf( "\nPara imprimir o caminho do vertice s ao vertice t, digite um "); 
+    printf( "\nPara imprimir o caminho do vertice s ao vertice t, digite um ");
     printf( "numero correspondente a s e outro para t. Tecle Enter.\n");
     printf( "Para imprimir essa mensagem novamente digite algum numero ");
     printf( "negativos e outro \nqualquer e tecle Enter\n");
-	printf( "Qualquer outra entrada encerrara o programa.\n");
+    printf( "Qualquer outra entrada encerrara o programa.\n");
 }
 
 
@@ -172,7 +185,7 @@ void showHelp() {
 void DIGRAPHconstruct( Digraph G, FILE *file) {
     int max, x, c, i, in, out;
     Vertex *new = NULL;
-    max = x = 0; 
+    max = x = 0;
     while ((c = fscanf( file, "%d %d", &in, &out)) > 0) {
         if (in > out)
             x = in;
@@ -231,11 +244,11 @@ int main( int argc, char *argv[]) {
     while ((c = scanf( "%d %d", &in, &out)) == 2) {
         if (in < 0 || out < 0)
             showHelp();
-        else if (in >= G->V || out >= G->V) 
+        else if (in >= G->V || out >= G->V)
             printf( "Os vertices nao podem ser maior que %d\n", G->V);
         else {
             DIGRAPHdist( G, in);
-            if (G->dist[out] == G->V) 
+            if (G->dist[out] == G->V)
                 printf( "Nao existe caminho do vertice %d ao %d\n", in, out);
             else {
                 imprimeCaminho( G, in, out);
