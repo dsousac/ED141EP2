@@ -1,9 +1,10 @@
-    /******************************************************************************/  
-    /* Nome: Christian M. T. Takagi             No. USP: 7136971                  */  
-    /* Disciplina: MAC323                       Prof. Andre Fujita                */  
-    /* Exercicio Programa 2                     Arquivo: README.md                */  
-    /******************************************************************************/
-
+'''
+/******************************************************************************/  
+/* Nome: Christian M. T. Takagi             No. USP: 7136971                  */  
+/* Disciplina: MAC323                       Prof. Andre Fujita                */  
+/* Exercicio Programa 2                     Arquivo: README.md                */  
+/******************************************************************************/
+'''
 
 
 1. Introdução
@@ -15,6 +16,14 @@ Foi usado como referência o material criado pelo Prof. Paulo Feofiloff, que
 se encontra em http://www.ime.usp.br/~pf/algoritmos_em_grafos/
 
 
+Devido a falta de esclarecimentos, assumo que a contagem de vértices começa a 
+partir do vértice de número 0 e que, se há um vértice não mencionado no arquivo
+de entrada, mas algum outro de ordem posterior o for mencionado, considero que 
+esse vértice existe e que possui grau 0.  
+Adoto também que o grau de um vértice é a união de seu grau de entrada e saída e
+que um grafo orientado é chamado de digrafo.
+
+
 2. Estrutura de Dados
 ================================================================================
 
@@ -24,12 +33,6 @@ lista encadeada para cada vetor.
 
 Para maiores detalhes sobre cada estrutura, leia os comentários no código fonte.
 
-Devido a falta de esclarecimentos, assumo que a contagem de vértices começa a 
-partir do vértice de número 0 e que se há um vértice não mencionado no arquivo
-de entrada, mas algum outro de ordem posterior o for, considero que esse vertice
-existe e que possui grau 0.  
-Adoto também que o grau de um vértice é a união de seu grau de entrada e saída e
-que um grafo orientado é chamado de digrafo.
 
 
 3. Compilando

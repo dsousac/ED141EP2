@@ -76,10 +76,10 @@ link NEWnode( int w, link next) {
 }
 
 
-/* REPRESENTAÇÃO POR LISTAS DE ADJACÊNCIA: A função DIGRAPHinsetA insere um */
-/* arco v-w no digrafo G.  A função supõe que v e w são distintos, positivos, */
-/* e menores que G->V. Se o digrafo já tem arco v-w, a função não faz nada. */
-/* Edição: Quando um arco é adicionado, atualizamos a informação de seu grau. */
+/* Editado: A função DIGRAPHinsetA insere um arco v-w no digrafo G.  A função */
+/* supõe que v e w são distintos, positivos, e menores que G->V. Se o digrafo */
+/* já tem arco v-w, a função não faz nada. Caso contrário, adiciona o arco em */
+/* ordem crescente e atualiza as informações necessárias. */
 void DIGRAPHinsertA( Digraph G, int v, int w) {
     link a = G->adj[v].arcs, ant = NULL;
     if (a == NULL || a->w > w) {
@@ -222,7 +222,7 @@ void DIGRAPHconstruct( Digraph G, FILE *file) {
 }
 
 
-/* MAIN */
+/* MAIN - Faz  */
 int main( int argc, char *argv[]) {
     FILE *file;
     int c, in, out;

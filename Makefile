@@ -17,4 +17,4 @@ ep2db.o: ep2.c
 	$(CC) $(CFLAGSDB) ep2.c -o ep2db.o
 
 clean:
-	rm -rf *o ep2 ep2db
+	rm -f *o ep2 ep2db
